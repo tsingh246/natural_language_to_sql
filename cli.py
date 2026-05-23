@@ -25,7 +25,13 @@ def main():
     try:
         result = chain.invoke({"question": args.question})
         print("\n=== Result ===\n")
-        print(result)
+        if isinstance(result, dict):
+            print(result.get("answer", ""))
+            if result.get("query"):
+                print("\n=== SQL ===\n")
+                print(result["query"])
+        else:
+            print(result)
     except Exception as exc:
         logging.exception("Failed to run chain: %s", exc)
 

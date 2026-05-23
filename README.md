@@ -1,17 +1,17 @@
 **Project Overview**:
-
-**Project Overview**:
-- Small demo that converts natural language questions into SQL, executes them against a Postgres database, and returns a concise answer using an LLM-powered chain.
+- Browser chat app that connects to a database, converts natural language questions into SQL, executes them, and returns a concise answer using an LLM-powered chain.
 
 **Why this structure**:
-- Modular, testable code separated into `config`, `db`, and `chain` so each piece can be unit-tested and showcased to recruiters.
+- Modular, testable code separated into `config`, `db`, `chain`, and `api` so each piece can be unit-tested and showcased clearly.
 
 **Files of interest**:
-- `app.py`: small entrypoint that runs the CLI demo.
-- `cli.py`: demo runner — pass `--question` to run arbitrary queries.
-- `src/nl_to_sql/config.py`: typed settings (Pydantic) and `.env` support.
-- `src/nl_to_sql/db.py`: DB connection helper.
-- `src/nl_to_sql/chain.py`: builds the LangChain pipeline for NL→SQL→execute→answer.
+- `app.py`: starts the FastAPI chat app.
+- `cli.py`: optional demo runner. Pass `--question` to run arbitrary queries.
+- `src/nl_to_sql/config.py`: typed settings and `.env` support.
+- `src/nl_to_sql/db.py`: database connection helper.
+- `src/nl_to_sql/chain.py`: builds the NL-to-SQL-to-answer pipeline.
+- `src/nl_to_sql/api.py`: FastAPI and WebSocket backend for the chat UI.
+- `static/`: browser chat interface.
 - `.env.example`: example environment variables.
 - `requirements.txt`: project dependencies.
 
@@ -24,24 +24,27 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-2. Copy `.env.example` to `.env` and fill credentials.
+2. Copy `.env.example` to `.env` and fill credentials. You can also enter database details in the browser.
 
-3. Run the demo:
+3. Run the chat app:
 
 ```powershell
-python app.py --question "How many employees have salary > 10000?"
+python app.py
 ```
 
-Design notes and next steps to impress recruiters:
-- Add unit tests for `db.create_db_connection` (mock the environment) and for `chain.build_chain` (mock the LLM/DB tools).
-- Add a small FastAPI wrapper (`api.py`) to show an interactive endpoint and a sample frontend.
-- Add GitHub Actions CI to run linting and tests on push.
-- Pin dependency versions and add `poetry` or `pip-tools` for reproducible installs.
+Open `http://127.0.0.1:8765`.
+
+4. Optional CLI demo:
+
+```powershell
+python cli.py --question "How many employees have salary > 10000?"
+```
 
 Security and production cautions:
-- Use a read-only DB role for query execution where possible.
-- Rate-limit and validate user input before sending to the LLM in a production-facing app.
+- Use a read-only database role for query execution where possible.
+- Avoid exposing this directly to the internet without authentication, rate limiting, and query safeguards.
+- Review generated SQL before enabling write permissions. This app is intended for read-oriented analysis.
 
-If you want, I can:
-- Create unit tests and a GitHub Actions workflow.
-- Add a small FastAPI server and a minimal HTML frontend for interactive demos.
+Next steps:
+- Add tests around the WebSocket message contract and chain payload shape.
+- Pin dependency versions and add CI for repeatable installs.

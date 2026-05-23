@@ -1,7 +1,7 @@
 from typing import Any
 from operator import itemgetter
 
-from langchain.chains import create_sql_query_chain
+from langchain_classic.chains import create_sql_query_chain
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.sql_database.tool import QuerySQLDatabaseTool
 from langchain_core.prompts import PromptTemplate
@@ -35,6 +35,6 @@ Answer: """
         RunnablePassthrough.assign(query=generate_query).assign(
             result=itemgetter("query") | execute_query
         )
-        | answer
+        .assign(answer=answer)
     )
     return chain

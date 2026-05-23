@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Database Chat</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="sidebar" aria-label="Database connection">
+        <div class="brand">
+          <span class="brand-mark">SQL</span>
+          <div>
+            <h1>Database Chat</h1>
+            <p id="connectionStatus">Disconnected</p>
+          </div>
+        </div>
+
+        <form id="connectForm" class="connection-form">
+          <label>
+            Connection URI
+            <input id="dbUri" name="DB_URI" type="password" autocomplete="off" placeholder="postgresql://user:pass@host:5432/db">
+          </label>
+
+          <div class="divider"><span>or</span></div>
+
+          <label>
+            Type
+            <select id="dbDialect" name="DB_DIALECT">
+              <option value="postgresql">PostgreSQL</option>
+              <option value="mysql+pymysql">MySQL</option>
+            </select>
+          </label>
+
+          <div class="grid-2">
+            <label>
+              Host
+              <input id="dbHost" name="DB_HOST" value="localhost" autocomplete="off">
+            </label>
+            <label>
+              Port
+              <input id="dbPort" name="DB_PORT" type="number" value="5432" min="1">
+            </label>
+          </div>
+
+          <label>
+            Database
+            <input id="dbName" name="DB_NAME" autocomplete="off">
+          </label>
+
+          <div class="grid-2">
+            <label>
+              User
+              <input id="dbUser" name="DB_USER" autocomplete="username">
+            </label>
+            <label>
+              Password
+              <input id="dbPassword" name="DB_PASSWORD" type="password" autocomplete="current-password">
+            </label>
+          </div>
+
+          <label>
+            Model
+            <input id="openAiModel" name="OPENAI_MODEL" value="gpt-3.5-turbo" autocomplete="off">
+          </label>
+
+          <button class="primary" type="submit">Connect</button>
+        </form>
+      </aside>
+
+      <section class="chat" aria-label="Database chat">
+        <header class="chat-header">
+          <div>
+            <h2>Ask the database</h2>
+            <p id="chatMeta">Connect a database to begin.</p>
+          </div>
+          <button id="clearButton" class="ghost" type="button">Clear</button>
+        </header>
+
+        <div id="messages" class="messages" aria-live="polite">
+          <article class="message assistant">
+            <div class="bubble">Connect to a database, then ask a question in plain English.</div>
+          </article>
+        </div>
+
+        <form id="chatForm" class="composer">
+          <input id="questionInput" name="question" autocomplete="off" placeholder="Show monthly revenue for this year" disabled>
+          <button id="sendButton" class="primary" type="submit" disabled>Send</button>
+        </form>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

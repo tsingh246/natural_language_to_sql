@@ -1,6 +1,7 @@
 python-dotenv
 langchain_openai
 langchain-community
+langchain-classic
 langchain
 psycopg2-binary
 pymysql
