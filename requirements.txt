@@ -1,7 +1,11 @@
- pip install
- langchain_openai 
- langchain_community 
- langchain 
- psycopg2
- pymysql 
- chromadb
+python-dotenv
+langchain_openai
+langchain-community
+langchain
+psycopg2-binary
+pymysql
+chromadb
+pydantic
+fastapi
+uvicorn[standard]
+aiofiles
